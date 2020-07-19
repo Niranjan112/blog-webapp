@@ -1,12 +1,12 @@
 <template>
   <div class="single-post-page">
     <section class="post">
-      <h1 class="post-title">Title of the Post</h1>
+      <h1 class="post-title">{{loadedPost.title}}</h1>
       <div class="post-details">
-        <div class="post-detail">Last Updated on XXX</div>
-        <div class="post-detail">Written by name</div>
+        <div class="post-detail">{{loadedPost.updatedData}}</div>
+        <div class="post-detail">{{loadedPost.author}}</div>
       </div>
-      <p class="post-content">Content of the post</p>
+      <p class="post-content">{{loadedPost.content}}</p>
     </section>
     <section class="post-feedback">
       <p>
@@ -18,6 +18,20 @@
     </section>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+  asyncData(context) {
+    return axios.get('https://blog-web-app-fd739.firebaseio.com/posts/' + context.params.id + '.json')
+      .then(res => {
+        return {
+          loadedPost: res.data
+        }
+      })
+  }
+}
+</script>
 
 <style scoped>
 .single-post-page {
