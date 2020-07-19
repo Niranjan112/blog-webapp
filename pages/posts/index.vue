@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import PostList from "~/components/Posts/PostList";
 export default {
-  components: {
-    PostList
+  head: {
+    title: 'Blog Posts'
   },
   computed: {
     loadedPosts() {
-      this.$store.getters.loadedPosts
+      return this.$store.getters.loadedPosts
     }
   }
 };

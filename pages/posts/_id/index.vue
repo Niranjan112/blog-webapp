@@ -3,7 +3,7 @@
     <section class="post">
       <h1 class="post-title">{{loadedPost.title}}</h1>
       <div class="post-details">
-        <div class="post-detail">{{loadedPost.updatedData}}</div>
+        <div class="post-detail">{{loadedPost.updatedData | date}}</div>
         <div class="post-detail">{{loadedPost.author}}</div>
       </div>
       <p class="post-content">{{loadedPost.content}}</p>
@@ -20,13 +20,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   asyncData(context) {
-    return axios.get('https://blog-web-app-fd739.firebaseio.com/posts/' + context.params.id + '.json')
-      .then(res => {
+    return context.app.$axios.$get('/posts/' + context.params.id + '.json')
+      .then(data => {
         return {
-          loadedPost: res.data
+          loadedPost: data
         }
       })
   }
