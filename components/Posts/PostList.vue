@@ -1,24 +1,12 @@
 <template>
   <section class="post-list">
     <PostPreview
-      id="1"
-      thumbnail="https://www.netscribes.com/wp-content/uploads/2019/06/Technology-Watch.jpg"
-      title="Hello there"
-      previewText="This my first Post"
-      :is-admin="isAdmin"
-    />
-    <PostPreview
-      id="2"
-      thumbnail="https://www.netscribes.com/wp-content/uploads/2019/06/Technology-Watch.jpg"
-      title="Hello there"
-      previewText="This my first Post"
-      :is-admin="isAdmin"
-    />
-    <PostPreview
-      id="3"
-      thumbnail="https://www.netscribes.com/wp-content/uploads/2019/06/Technology-Watch.jpg"
-      title="Hello there"
-      previewText="This my first Post"
+      v-for="post in posts"
+      :key="post.id"
+      :id="post.id"
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :previewText="post.previewText"
       :is-admin="isAdmin"
     />
   </section>
@@ -34,6 +22,10 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false
+    },
+    posts: {
+      type: Array,
+      required: true
     }
   }
 };
