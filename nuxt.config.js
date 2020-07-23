@@ -68,7 +68,8 @@ export default {
   build: {
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://blog-web-app-fd739.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://blog-web-app-fd739.firebaseio.com',
+    firebaseAPIKey: 'AIzaSyBrT3kUKOgAoV5FTMVnnPk06LlzGQjbylM'
   },
   router: {
     extendRoutes(routes, resolve) {

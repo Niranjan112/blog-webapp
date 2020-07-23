@@ -1,5 +1,6 @@
 export const state = () => ({
-  loadedPosts: []
+  loadedPosts: [],
+  token: null
 });
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   editPost(state, editedPost) {
     const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id)
     state.loadedPosts[postIndex] = editedPost
+  },
+  setToken(state, token) {
+    state.token = token
   }
 };
 
@@ -27,25 +31,40 @@ export const actions = {
       })
       .catch(e => console.log(e))
   },
-  addPost(vuexContent, post) {
+  addPost(vuexContext, post) {
     const createdPost = {
       ...post, updatedData: new Date()
     }
     return this.$axios.$post('/posts.json', createdPost)
       .then(data => {
-        vuexContent.commit('addPost', {...createdPost, id: data.name})
+        vuexContext.commit('addPost', {...createdPost, id: data.name})
       })
       .catch(err => console.log(err))
   },
-  editPost(vuexContent, editedPost) {
+  editPost(vuexContext, editedPost) {
     return this.$axios.$put('/posts/' + editedPost.id + '.json', editedPost)
     .then(res => {
-      vuexContent.commit('editPost', editedPost)
+      vuexContext.commit('editPost', editedPost)
     })
     .catch(e => console.log(e))
   },
   setPosts(vuexContext, posts) {
     vuexContext.commit("setPosts", posts);
+  },
+  authenticateUser(vuexContext, authData) {
+    let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + process.env.firebaseAPIKey
+    if(!authData.isLogin) {
+      authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + process.env.firebaseAPIKey
+    }
+    return this.$axios.$post( authUrl, {
+      email: authData.email,
+      password: authData.password,
+      returnSecureToken: true
+    })
+    .then(result => {
+      vuexContext.commit('setToken', result.idToken )
+    })
+    .catch(error => console.log(error))
   }
 };
 
