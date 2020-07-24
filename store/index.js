@@ -35,14 +35,14 @@ export const actions = {
     const createdPost = {
       ...post, updatedData: new Date()
     }
-    return this.$axios.$post('/posts.json', createdPost)
+    return this.$axios.$post('/posts.json?auth=' + vuexContext.state.token, createdPost)
       .then(data => {
         vuexContext.commit('addPost', {...createdPost, id: data.name})
       })
       .catch(err => console.log(err))
   },
   editPost(vuexContext, editedPost) {
-    return this.$axios.$put('/posts/' + editedPost.id + '.json', editedPost)
+    return this.$axios.$put('/posts/' + editedPost.id + '.json?auth=' + vuexContext.state.token, editedPost)
     .then(res => {
       vuexContext.commit('editPost', editedPost)
     })
@@ -71,5 +71,8 @@ export const actions = {
 export const getters = {
   loadedPosts(state) {
     return state.loadedPosts;
+  },
+  isAuthenticated(state) {
+    return state.token != null
   }
 }
