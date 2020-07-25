@@ -1,4 +1,6 @@
 
+const bodyParser = require('body-parser')
+
 export default {
   /*
   ** Nuxt rendering mode
@@ -83,5 +85,9 @@ export default {
   pageTransition: {
     name: 'fade',
     mode: 'out-in'
-  }
+  },
+  serverMiddleware: [
+    bodyParser.json(),
+    '~/api'
+  ]
 }
